@@ -1,38 +1,3 @@
-
-chords = {'cmajt':['c','e','g'],
-'csharpmajt': ['csharp','f','gsharp'],
-'dmajt':['d','fsharp','a'],
-'dsharpmajt': ['dsharp','g','asharp'],
-'emajt':['e','gsharp','b'],
-'fmajt':['f','a','cc'],
-'gmajt':['g','b','dd'],
-'amajt':['a','ccsharp','ee'],
-'cmaj7':['c','e','g','aasharp']}
-
-
-
-index=0
-
-yes_or_no = 'yes'
-
-while (yes_or_no =='yes'):
-    print ('                   ')
-    print ('Look up chord here:')
-    chord_in_question = raw_input()
-    notes = chords[chord_in_question]
-    print ('Here are the musical notes for the chord:')
-    print notes
-    print ('Here are the numbers from the dictionary:')
-    while (index < len(notes)):
-        print na[notes[index]]
-        index = index + 1
-    print('Would you like to look up another chord?')
-    index = 0
-    yes_or_no= raw_input() 
-    
-if (yes_or_no != 'yes'):
-    print('Alright, forget it!')
-
 ### Following is a simple list of notes, spaced apart by half - steps. 
 ### Each tone capable of being played corresponds to EXACTLY ONE value, so there is no data overlap. 
 ### This arrangement will enable the "sliding" of chords and melodies into different keys. 
@@ -110,7 +75,8 @@ halfsteps = ['AAA',
  'ggg',
  'gggsharp']
 
-### Following is a dictionary of notes corresponding with sound files (eventually). "CD" stands for "Chromatic Dictionary."
+
+
 
 CD = {'A': 24,
  'AA': 12,
@@ -186,6 +152,44 @@ CD = {'A': 24,
  'gsharp': 47}
 
 chord = 'gchord'
+
+
+
+chords = {'cmajt':['c','e','g'],
+'csharpmajt': ['csharp','f','gsharp'],
+'dmajt':['d','fsharp','a'],
+'dsharpmajt': ['dsharp','g','asharp'],
+'emajt':['e','gsharp','b'],
+'fmajt':['f','a','cc'],
+'gmajt':['g','b','dd'],
+'amajt':['a','ccsharp','ee'],
+'cmaj7':['c','e','g','aasharp']}
+
+
+index=0
+
+yes_or_no = 'yes'
+
+while (yes_or_no =='yes'):
+    print ('                   ')
+    print ('Look up chord here:')
+    chord_in_question = raw_input()
+    notes = chords[chord_in_question]
+    print ('Here are the musical notes for the chord:')
+    print notes
+    print ('Here are the numbers from the dictionary:')
+    while (index < len(notes)):
+        print [CD[index]]
+        index = index + 1
+    print('Would you like to look up another chord?')
+    index = 0
+    yes_or_no= raw_input() 
+    
+if (yes_or_no != 'yes'):
+    print('Alright, forget it!')
+
+
+### Following is a dictionary of notes corresponding with sound files (eventually). "CD" stands for "Chromatic Dictionary."
 
 #######################################################################################################################################33
 
