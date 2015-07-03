@@ -259,3 +259,17 @@ def get_chord(c1,p1,c2,p2,c3,p3,c4,p4,c5,p5,c6,p6):
 
 
 ################################## Correspond chords with gotten chords in dictionary???
+
+self.intervals = {
+        'minsec':1,
+        'majsec':2,
+        'minthird':3,
+        'majthird':4,
+        'perfourth':5,
+        'augfourth':6,
+        'perfifth':7,
+        'minsixth':8,
+        'majsixth':9,
+        'minsev':10,
+        'majsev':11}
+        
