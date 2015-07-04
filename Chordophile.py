@@ -14,17 +14,12 @@ class chord:
         
          self.notes = {
         'a':0,
-        'asharp':1,
         'b':2,
         'c':3,
-        'csharp':4,
         'd':5,
-        'dsharp':6,
         'e':7,
         'f':8,
-        'fsharp':9,
-        'g':10,
-        'gsharp':11}
+        'g':10}
         
          self.chords = {
         'majt':[0,4,7], 
@@ -38,23 +33,44 @@ class chord:
         'min7m':[0,3,7,11],
         'maj6':[0,4,7,9],
         'min6':[0,3,7,9]}
+    
+    def accidental(self,chord):
         
+        self.chord = chord
+        
+        if (self.chord[1] == 's'):
+            
+            self.steps = self.steps + 1
+            self.ckey = self.chord[1:6]
+            self.ctype = self.chord[6:]
+        
+        elif (self.chord[1] == 'f'):
+            
+            self.steps = self.steps - 1
+            
+
+        
+            
        
         
     def finder(self,chord):  
         ########################################FINDER FINDS THE NOTES OF ANY TYPE OF CHORD IN ANY KEY. 
         
-        ########################################The following if/else block gets the keynote of the chord. ckey=chord keynote.
+        ########################################The following if/else block gets the keynote of the chord.
+        ######################################## Distinguishes between sharps and flats, adds and subtracts values accordingly.
         if(chord[1] == 's'):
-            ckey = chord[0:6] #############WHY???
             ctype = chord[6:]                                         
-        
+            accidental = 1
+        elif(chord[1] == 'f'):
+            ctype = chord[5:]
+            accidental = -1
         else:  
             ckey = chord[0]
             ctype = chord[1:] 
-        
+            accidental = 0
         ######################################## Set up some more variables:
-        
+        ckey = chord[0]
+                                                # Gets the keynote of the chord without sharp or flat. The above loop handles accidentals.
         steps = self.notes[ckey]
                                                 # Finds the 'number' of the keynote by looking it up in the note-number dictionary.
         chordnotes = self.chords[ctype]
@@ -63,7 +79,7 @@ class chord:
         ######################################### The following FOR loop adds the Key note number to each of the chords numbers, thus shifting it up (eventually down):
         for note in chordnotes:
             
-             note = note + steps
+             note = note + steps + accidental
              
              chordout.append(note)
              
