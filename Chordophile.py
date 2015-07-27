@@ -15,9 +15,9 @@ class harmony:
         self.chords = {
         'majt':[0,4,7], 
         'mint':[0,3,7],
-        'majaug':[0,4,8],
-        'majdim':[0,4,6],
-        'mindim':[0,3,6],
+        'majaugt':[0,4,8],
+        'majdimt':[0,4,6],
+        'mindimt':[0,3,6],
         'maj7':[0,4,7,10],
         'maj7m':[0,4,7,11],
         'min7':[0,3,7,10],
@@ -41,7 +41,7 @@ class harmony:
             downShift = 0
         #The following "while loop" moves the note the proper number of octaves up or down, depending on the number of key letters.
         octave = 0
-        index = 1
+        index = 1                                  ###### This eventually acts as a placeholder to find accidental in chord names
         while((index < len(note)) and (note[index] == note[index-1])):
                 
                 octave = octave + octShift
@@ -61,7 +61,8 @@ class harmony:
         elif (accident == 'f'):
             accidental = -1
         elif (accident == 'l'):
-            accidental = -13                 # This is to deal with 'fflat'.
+            accidental = -13  # This is to deal with 'fflat'.
+            index = index - 1   # This fixes a glitch with the index that affects 'chordget'.  (Key error: 'latmajt'.)     
         else:
             accidental = 0
         
@@ -69,59 +70,33 @@ class harmony:
         
         notenumber = basicNumber + octave + downShift + accidental
         
-        return notenumber
+        return (notenumber,index)
 
             
 
         
     def chordget(self,chord):  
         ########################################FINDER FINDS THE NOTES OF ANY TYPE OF CHORD IN ANY KEY. 
-        
+        ########################################The following  looks up the keynote using 'noteget()'
+        keynote = self.noteget(chord)[0]
+        index = self.noteget(chord)[1]
         ########################################The following if/else block gets the keynote of the chord.
         ######################################## Distinguishes between sharps and flats, adds and subtracts values accordingly.
-        if(chord[1] == 's'):
-            ctype = chord[6:]                                         
-            accidental = 1
-        elif(chord[1] == 'f'):
-            ctype = chord[5:]
-            accidental = -1
+        if(chord[index] == 's'):
+            ctype = chord[(index + 5):]                                         
+        elif(chord[index] == 'f'):
+            ctype = chord[(index + 4):]
         else:  
-            ckey = chord[0]
-            ctype = chord[1:] 
-            accidental = 0
+            ctype = chord[(index):] 
         ######################################## Set up some more variables:
-        ckey = chord[0]
-                                                # Gets the keynote of the chord without sharp or flat. The above loop handles accidentals.
-        steps = self.notes[ckey]
-                                                # Finds the 'number' of the keynote by looking it up in the note-number dictionary.
         chordnotes = self.chords[ctype]
                                                 # Looks up chord type in dictionary, gets list of numbers of each chord note.
         chordout = []
         ######################################### The following FOR loop adds the Key note number to each of the chords numbers, thus shifting it up (eventually down):
         for note in chordnotes:
             
-             note = note + steps + accidental
+             note = note + keynote
              
              chordout.append(note)
              
         return chordout
-        
-             
-               
-        
-        
-        
-        
-        
-        
-        
-    
-    
-
-        
-        
-    
-        
-        
-    
-    
