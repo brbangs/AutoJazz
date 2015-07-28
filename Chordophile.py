@@ -1,7 +1,13 @@
-
-
-
 class harmony:
+    """This class deals with tones and harmony, as opposed to rhythm.
+    noteget() Returns the distance (in half steps) of a note from 'middle a'.
+        Notes below 'middle a' have negative values.
+        Input is in the form of a string.
+        e.g. noteget('aaasharp') returns 25.
+             noteget('GG') returns -14.
+    chordget() Returns a list of the note values of any chord in self.chords,
+        in any key or octave.
+        e.g. chordget('aamajt') returns [12,16,19]."""
     def __init__(self):
         
         self.notes = {'a':0,
@@ -11,6 +17,14 @@ class harmony:
         'e':7,
         'f':8,
         'g':10}
+        
+        self.backnotes = {0:'a',
+        2:'b',
+        3:'c',
+        5:'d',
+        7:'e',
+        8:'f',
+        10:'g'}
         
         self.chords = {
         'majt':[0,4,7], 
@@ -41,17 +55,17 @@ class harmony:
             downShift = 0
         #The following "while loop" moves the note the proper number of octaves up or down, depending on the number of key letters.
         octave = 0
-        index = 1                                  ###### This eventually acts as a placeholder to find accidental in chord names
-        while((index < len(note)) and (note[index] == note[index-1])):
+        self.index = 1                                  ###### This eventually acts as a placeholder to find accidental in chord names
+        while((self.index < len(note)) and (note[self.index] == note[self.index-1])):
                 
                 octave = octave + octShift
                 
-                index = index + 1
+                self.index = self.index + 1
         
         #### The following system figures out the value for the accidental.
         #This figures out whether there is any accidental at all:
         try:
-            accident = note[index]
+            accident = note[self.index]
         except:
             accident = 0
         
@@ -62,7 +76,7 @@ class harmony:
             accidental = -1
         elif (accident == 'l'):
             accidental = -13  # This is to deal with 'fflat'.
-            index = index - 1   # This fixes a glitch with the index that affects 'chordget'.  (Key error: 'latmajt'.)     
+            self.index = self.index - 1   # This fixes a glitch with the self.index that affects 'chordget'.  (Key error: 'latmajt'.)     
         else:
             accidental = 0
         
@@ -70,24 +84,45 @@ class harmony:
         
         notenumber = basicNumber + octave + downShift + accidental
         
-        return (notenumber,index)
+        return notenumber
 
-            
+    def notename(self,notenumber):
+        
+        octave = notenumber/12
+        note = notenumber%12
+        accidental = ''
+        basicNote = ''
+        try: 
+            basicNote = self.backnotes[note]
+        except:
+            note = note-1
+            basicNote = self.backnotes[note]
+            accidental = 'sharp'
+        ##############################################Need to make it handle lower octaves.
+        
+
+        letters = octave * basicNote
+        
+        notename = letters + basicNote + accidental
+        
+        return notename
+        
+        
+          
 
         
     def chordget(self,chord):  
         ########################################FINDER FINDS THE NOTES OF ANY TYPE OF CHORD IN ANY KEY. 
         ########################################The following  looks up the keynote using 'noteget()'
-        keynote = self.noteget(chord)[0]
-        index = self.noteget(chord)[1]
+        keynote = self.noteget(chord)
         ########################################The following if/else block gets the keynote of the chord.
         ######################################## Distinguishes between sharps and flats, adds and subtracts values accordingly.
-        if(chord[index] == 's'):
-            ctype = chord[(index + 5):]                                         
-        elif(chord[index] == 'f'):
-            ctype = chord[(index + 4):]
+        if(chord[self.index] == 's'):
+            ctype = chord[(self.index + 5):]                                         
+        elif(chord[self.index] == 'f'):
+            ctype = chord[(self.index + 4):]
         else:  
-            ctype = chord[(index):] 
+            ctype = chord[(self.index):] 
         ######################################## Set up some more variables:
         chordnotes = self.chords[ctype]
                                                 # Looks up chord type in dictionary, gets list of numbers of each chord note.
@@ -100,3 +135,5 @@ class harmony:
              chordout.append(note)
              
         return chordout
+        
+    
