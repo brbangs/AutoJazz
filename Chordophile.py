@@ -9,7 +9,7 @@ class harmony:
         in any key or octave.
         e.g. chordget('aamajt') returns [12,16,19]."""
     def __init__(self):
-        
+         
         self.notes = {'a':0,
         'b':2,
         'c':3,
@@ -88,8 +88,8 @@ class harmony:
 
     def notename(self,notenumber):
         
-        octave = notenumber/12
-        note = notenumber%12
+        octave = abs(notenumber/12)
+        note = abs(notenumber%12)
         accidental = ''
         basicNote = ''
         try: 
@@ -98,8 +98,11 @@ class harmony:
             note = note-1
             basicNote = self.backnotes[note]
             accidental = 'sharp'
-        ##############################################Need to make it handle lower octaves.
         
+        if (notenumber < 0):
+            
+            basicNote = basicNote.upper()
+            octave = octave - 1
 
         letters = octave * basicNote
         
@@ -107,10 +110,19 @@ class harmony:
         
         return notename
         
+    def chordname(self,chordlist):
         
+        chordnotes = []
+        
+        for notenumber in chordlist:
+            
+            notename = self.notename(notenumber)
+            
+            chordnotes.append(notename)
+            
+        return chordnotes
+              
           
-
-        
     def chordget(self,chord):  
         ########################################FINDER FINDS THE NOTES OF ANY TYPE OF CHORD IN ANY KEY. 
         ########################################The following  looks up the keynote using 'noteget()'
@@ -136,4 +148,8 @@ class harmony:
              
         return chordout
         
-    
+    def chordnotes(self,chord):
+        
+        notes = self.chordname(self.chordget(chord))
+        
+        return notes
